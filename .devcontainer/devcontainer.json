@@ -1,0 +1,19 @@
+{
+    "name": "Java",
+    "dockerFile": "Dockerfile",
+    "context": "..",
+    "runArgs": [
+        "--rm",
+        "--name", "maven",
+        "--network", "ip6net"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "redhat.java",
+                "vscjava.vscode-java-pack", 
+                "vscjava.vscode-maven" 
+            ]
+        }
+    }
+}
