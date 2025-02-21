@@ -5,8 +5,6 @@ import com.hub.layouts.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;
 
@@ -32,8 +30,7 @@ public class AguiBankApplication {
 						cadastroPage.exibirFormulario(scanner);
 						break;
 					case 2:
-						ApplicationContext context = new AnnotationConfigApplicationContext(AguiBankApplication.class);
-						Login loginPage = context.getBean(Login.class);
+						Login loginPage = new Login();
 						loginPage.exibirFormulario(scanner);
 						break;
 					case 3:

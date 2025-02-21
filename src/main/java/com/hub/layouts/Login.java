@@ -7,20 +7,12 @@ import java.net.http.HttpResponse;
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.hub.config.SupabaseConfig;
-
-@Component
 public class Login {
 
-    private final SupabaseConfig supabaseConfig;
+    // Ajuste esses valores conforme sua configuração do Supabase.
+    private static final String SUPABASE_URL = "https://kabjwnhllotjibbxlfse.supabase.co";
+    private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthYmp3bmhsbG90amliYnhsZnNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg5OTQ3MDIsImV4cCI6MjA1NDU3MDcwMn0.OVHY1RdlHCfPAmRReV-k1ddLFyPtr7wCdeWvngIrf4A";
 
-    @Autowired
-    public Login(SupabaseConfig supabaseConfig) {
-        this.supabaseConfig = supabaseConfig;
-    }
     /**
      * Exibe o formulário de login e processa a autenticação.
      * @param scanner Scanner para capturar a entrada do usuário.
@@ -42,7 +34,7 @@ public class Login {
     private void autenticar(String email, String senha) {
         try {
             // Monta a URL com o grant_type na query string
-            String url = supabaseConfig.getSupabaseUrl() + "/auth/v1/token?grant_type=password";
+            String url = SUPABASE_URL + "/auth/v1/token?grant_type=password";
 
             // Monta o corpo da requisição em formato JSON
             String requestBody = "{\"email\":\"" + email + "\", \"password\":\"" + senha + "\"}";
@@ -50,7 +42,7 @@ public class Login {
             // Cria a requisição HTTP POST.
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("apikey", supabaseConfig.getSupabaseApiKey())
+                    .header("apikey", SUPABASE_API_KEY)
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
