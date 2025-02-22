@@ -4,15 +4,16 @@ import java.util.Scanner;
 
 public class TelaInicial {
     public int Menu(Scanner scanner) {
-        System.out.println("********************************");
-        System.out.println("Bem-vindo ao AguiBank!");
+        System.out.println("\u001B[34m********************************\u001B[0m"); 
+        System.out.println("\u001B[1m     Bem-vindo ao AguiBank!          \u001B[0m"); 
+        System.out.println("\u001B[34m********************************\u001B[0m");
         System.out.println("Escolha uma opção:");
         System.out.println("1 - Cadastrar");
         System.out.println("2 - Login");
         System.out.println("3 - Sair");
-        System.out.println("********************************");
+        System.out.println("\u001B[34m********************************\u001B[0m");
         
-		System.out.print("\nOpção: ");
+        System.out.print("\n\u001B[34mOpção: \u001B[0m");
         int opcao = scanner.nextInt();
         scanner.nextLine();
         return opcao;
