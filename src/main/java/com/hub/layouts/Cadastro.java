@@ -18,9 +18,9 @@ public class Cadastro {
      */
     
     public void exibirFormulario(Scanner scanner) {
-        System.out.println("\u001B[33m-------------------\u001B[0m"); 
-        System.out.println("\u001B[1m     Cadastro     \u001B[0m"); 
-        System.out.println("\u001B[33m-------------------\u001B[0m");
+        System.out.println("\u001B[34m--------------------------------\u001B[0m"); 
+        System.out.println("\u001B[1m             Cadastro              \u001B[0m"); 
+        System.out.println("\u001B[34m--------------------------------\u001B[0m");
         
         System.out.print("\u001B[32mNome: \u001B[0m"); 
         String nome = scanner.nextLine();
@@ -29,7 +29,7 @@ public class Cadastro {
         System.out.print("\u001B[32mSenha: \u001B[0m");
         String senha = scanner.nextLine();
         
-        System.out.println("\u001B[33m-------------------\u001B[0m");
+        System.out.println("\u001B[34m--------------------------------\u001B[0m");
         signClient.registrarUsuario(email, senha, nome);
     }
 }

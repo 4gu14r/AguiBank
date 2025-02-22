@@ -1,7 +1,10 @@
 package com.hub.layouts;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 
+@Component
 public class TelaPrincipal {
     public int exibirTelaPrincipal(Scanner scanner) {
         System.out.println("\u001B[34m********************************\u001B[0m");
@@ -19,6 +22,5 @@ public class TelaPrincipal {
         int opcao = scanner.nextInt();
         scanner.nextLine();
         return opcao;
-
     }
 }
