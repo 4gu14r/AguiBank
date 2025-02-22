@@ -21,6 +21,8 @@ public class ContaBancaria {
     @Enumerated(EnumType.STRING)
     private TipoConta tipoConta;
 
+    
+    @Column(name = "user_id")
     private String userId;
    
     public ContaBancaria() {} // Construtor padrão exigido pelo JPA

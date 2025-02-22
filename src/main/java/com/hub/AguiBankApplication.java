@@ -1,10 +1,14 @@
 package com.hub;
 
 import com.hub.layouts.*;
+import com.hub.model.Cliente;
+import com.hub.service.ContaBancariaService;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -30,7 +34,7 @@ public class AguiBankApplication {
                     case 2:
                         Login loginPage = context.getBean(Login.class);
                         if (loginPage.exibirFormulario(scanner)) {
-                            executarMenuPrincipal(scanner); // Passa o mesmo scanner
+                            executarMenuPrincipal(context, scanner);
                         }
                         break;
                     case 3:
@@ -44,15 +48,19 @@ public class AguiBankApplication {
         }
     }
 
-    public static void executarMenuPrincipal(Scanner scanner) {
-        TelaPrincipal menuPrincipal = new TelaPrincipal();
+    public static void executarMenuPrincipal(ConfigurableApplicationContext context, Scanner scanner) {
+        Cliente cliente = Cliente.getInstance();
 
+        TelaPrincipal menuPrincipal = context.getBean(TelaPrincipal.class);
+        ContaBancariaService contaService = context.getBean(ContaBancariaService.class);
         int opcao;
+
         do {
             opcao = menuPrincipal.exibirTelaPrincipal(scanner);
             switch (opcao) {
                 case 1:
-                    System.out.println("Consulta");
+                    BigDecimal saldo = contaService.consultarSaldo(cliente.getUserId());
+                    System.out.println("Saldo atual: R$ " + saldo);
                     break;
                 case 2:
                     System.out.println("Imprimir Extrato");
