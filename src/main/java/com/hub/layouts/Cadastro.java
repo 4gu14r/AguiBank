@@ -6,12 +6,17 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.IOException;
 import java.util.Scanner;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Cadastro {
 
-    // Ajuste esses valores conforme sua configuração do Supabase.
-    private static final String SUPABASE_URL = "https://kabjwnhllotjibbxlfse.supabase.co";
-    private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthYmp3bmhsbG90amliYnhsZnNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg5OTQ3MDIsImV4cCI6MjA1NDU3MDcwMn0.OVHY1RdlHCfPAmRReV-k1ddLFyPtr7wCdeWvngIrf4A";
+    @Value("${supabase.url}")
+    private String supabaseUrl;
+
+    @Value("${supabase.apiKey}")
+    private String supabaseApiKey;
 
     /**
      * Exibe o formulário de cadastro e registra o usuário via Supabase Auth.
@@ -37,30 +42,23 @@ public class Cadastro {
      */
     private void registrarUsuario(String email, String senha, String nome) {
         try {
-            // Monta a URL para o cadastro.
-            String url = SUPABASE_URL + "/auth/v1/signup";
-
-            // Monta o corpo da requisição em formato JSON.
+            String url = supabaseUrl + "/auth/v1/signup";
             String requestBody = "{\"email\":\"" + email + "\", \"password\":\"" + senha + "\", \"data\":{\"displayName\":\"" + nome + "\"}}";
 
-            // Cria a requisição HTTP POST.
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("apikey", SUPABASE_API_KEY)
+                    .header("apikey", supabaseApiKey)
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
 
-            // Cria o cliente HTTP e envia a requisição.
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            // Verifica o status da resposta.
             int statusCode = response.statusCode();
             if (statusCode == 200 || statusCode == 201) {
                 System.out.println("Cadastro realizado com sucesso!");
                 System.out.println("Resposta: " + response.body());
-                // Aqui você pode utilizar uma biblioteca (como Gson ou Jackson) para fazer o parsing do JSON retornado.
             } else {
                 System.out.println("Erro ao realizar cadastro. Código de status: " + statusCode);
                 System.out.println("Resposta: " + response.body());

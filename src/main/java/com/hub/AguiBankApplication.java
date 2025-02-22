@@ -5,6 +5,7 @@ import com.hub.layouts.*;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Scanner;
 
@@ -12,11 +13,11 @@ import java.util.Scanner;
 public class AguiBankApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AguiBankApplication.class, args);
-		executarMenu();
+		ConfigurableApplicationContext context = SpringApplication.run(AguiBankApplication.class, args);
+		executarMenu(context);
 	}
 
-	public static void executarMenu() {
+	public static void executarMenu(ConfigurableApplicationContext context) {
 		try (Scanner scanner = new Scanner(System.in)) {
 			TelaInicial menuPage = new TelaInicial();
 
@@ -26,11 +27,12 @@ public class AguiBankApplication {
 				opcao = menuPage.Menu(scanner);
 				switch (opcao) {
 					case 1:
-						Cadastro cadastroPage = new Cadastro();
+						Cadastro cadastroPage = context.getBean(Cadastro.class);
 						cadastroPage.exibirFormulario(scanner);
 						break;
 					case 2:
-						Login loginPage = new Login();
+						// Aqui o bean Login é obtido do contexto, garantindo que as injeções ocorram
+						Login loginPage = context.getBean(Login.class);
 						loginPage.exibirFormulario(scanner);
 						break;
 					case 3:

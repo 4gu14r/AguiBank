@@ -6,12 +6,18 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.IOException;
 import java.util.Scanner;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Login {
 
-    // Ajuste esses valores conforme sua configuração do Supabase.
-    private static final String SUPABASE_URL = "https://kabjwnhllotjibbxlfse.supabase.co";
-    private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImthYmp3bmhsbG90amliYnhsZnNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg5OTQ3MDIsImV4cCI6MjA1NDU3MDcwMn0.OVHY1RdlHCfPAmRReV-k1ddLFyPtr7wCdeWvngIrf4A";
+    // Injeção dos valores a partir do arquivo de configuração/variáveis de ambiente
+    @Value("${supabase.url}")
+    private String supabaseUrl;
+
+    @Value("${supabase.apiKey}")
+    private String supabaseApiKey;
 
     /**
      * Exibe o formulário de login e processa a autenticação.
@@ -33,8 +39,17 @@ public class Login {
      */
     private void autenticar(String email, String senha) {
         try {
+            // Verifica se a variável supabaseUrl está nula
+            if (supabaseUrl == null) {
+                System.err.println("Erro: supabaseUrl está null!");
+                return; // ou lance uma exceção personalizada
+            }
+            
+            // Exibe o valor da URL para debug
+            System.out.println("Valor de supabaseUrl: " + supabaseUrl);
+    
             // Monta a URL com o grant_type na query string
-            String url = SUPABASE_URL + "/auth/v1/token?grant_type=password";
+            String url = supabaseUrl + "/auth/v1/token?grant_type=password";
 
             // Monta o corpo da requisição em formato JSON
             String requestBody = "{\"email\":\"" + email + "\", \"password\":\"" + senha + "\"}";
@@ -42,7 +57,7 @@ public class Login {
             // Cria a requisição HTTP POST.
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
-                    .header("apikey", SUPABASE_API_KEY)
+                    .header("apikey", supabaseApiKey)
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
