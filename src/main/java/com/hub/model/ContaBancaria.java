@@ -1,10 +1,7 @@
 package com.hub.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import java.math.BigDecimal;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "contas_bancaria")
@@ -14,26 +11,25 @@ public class ContaBancaria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int conta;
 
-    private String userId;
-
-    private float saldo;
+    private BigDecimal saldo; 
 
     public enum TipoConta {
         CORRENTE,
         POUPANCA
     }
-
-    private TipoConta tipoConta; 
-
     
+    @Enumerated(EnumType.STRING)
+    private TipoConta tipoConta;
+
+    private String userId;
+   
     public ContaBancaria() {} // Construtor padrão exigido pelo JPA
 
     public ContaBancaria(String userId) {
-        this.userId = userId;
-        this.saldo = 0;
+        this.saldo = BigDecimal.ZERO; 
         this.tipoConta = TipoConta.CORRENTE;
+        this.userId = userId;
     }
-
 
     // Getters e Setters
     public int getConta() {
@@ -44,19 +40,11 @@ public class ContaBancaria {
         this.conta = conta;
     }
 
-    public String getIdUsuario() {
-        return userId;
-    }
-
-    public void setIdUsuario(String userId) {
-        this.userId = userId;
-    }
-
-    public float getSaldo() {
+    public BigDecimal getSaldo() { 
         return saldo;
     }
 
-    public void setSaldo(float saldo) {
+    public void setSaldo(BigDecimal saldo) { 
         this.saldo = saldo;
     }
 
@@ -66,5 +54,13 @@ public class ContaBancaria {
 
     public void setTipoConta(TipoConta tipoConta) {
         this.tipoConta = tipoConta;
+    }
+
+    public String getUserID() {
+        return userId;
+    }
+
+    public void setUserID(String userId) {
+        this.userId = userId;
     }
 }
