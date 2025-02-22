@@ -24,13 +24,10 @@ public class AuthenticationClient {
      * @param senha Senha informada pelo usuário.
      */
 
-    public void autenticar(String email, String senha) {
+    public Boolean autenticar(String email, String senha) {
         try {            
-
-            System.out.println("Valor de supabaseUrl: " + supabaseUrl);
     
             String url = supabaseUrl + "/auth/v1/token?grant_type=password";
-
             String requestBody = "{\"email\":\"" + email + "\", \"password\":\"" + senha + "\"}";
 
             // Cria a requisição HTTP POST.
@@ -49,13 +46,16 @@ public class AuthenticationClient {
             if (statusCode == 200) {
                 System.out.println("Login realizado com sucesso!");
                 System.out.println("Resposta: " + response.body());
+                return true;
             } else {
                 System.out.println("Erro ao realizar login. Código de status: " + statusCode);
                 System.out.println("Resposta: " + response.body());
+                return false;
             }
             
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            return false;
         }
     }
 

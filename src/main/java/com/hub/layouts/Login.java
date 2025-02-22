@@ -1,7 +1,6 @@
 package com.hub.layouts;
 
 import java.util.Scanner;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +17,18 @@ public class Login {
      * @param scanner Scanner para capturar a entrada do usuário.
      */
 
-    public void exibirFormulario(Scanner scanner) {
-        System.out.print("\nEmail: ");
-        String email = scanner.nextLine();
-        System.out.print("Senha: ");
-        String senha = scanner.nextLine();
+    public Boolean exibirFormulario(Scanner scanner) {
+        System.out.println("\u001B[34m--------------------------------\u001B[0m"); 
+        System.out.println("\u001B[1m             Login               \u001B[0m"); 
+        System.out.println("\u001B[34m--------------------------------\u001B[0m");
         
-        authClient.autenticar(email, senha);
+        System.out.print("\u001B[34mEmail: \u001B[0m");
+        String email = scanner.nextLine();
+        System.out.print("\u001B[34mSenha: \u001B[0m");
+        String senha = scanner.nextLine();
+         
+        System.out.println("\u001B[34m--------------------------------\u001B[0m");
+
+        return authClient.autenticar(email, senha);
     }
 }

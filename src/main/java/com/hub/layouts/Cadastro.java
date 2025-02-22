@@ -16,18 +16,20 @@ public class Cadastro {
      * Exibe o formulário de cadastro e registra o usuário via Supabase Auth.
      * @param scanner Scanner para capturar a entrada do usuário.
      */
-
+    
     public void exibirFormulario(Scanner scanner) {
-        System.out.println("---- Cadastro ----");
-        System.out.print("Nome: ");
+        System.out.println("\u001B[33m-------------------\u001B[0m"); 
+        System.out.println("\u001B[1m     Cadastro     \u001B[0m"); 
+        System.out.println("\u001B[33m-------------------\u001B[0m");
+        
+        System.out.print("\u001B[32mNome: \u001B[0m"); 
         String nome = scanner.nextLine();
-        System.out.print("Email: ");
+        System.out.print("\u001B[32mEmail: \u001B[0m");
         String email = scanner.nextLine();
-        System.out.print("Senha: ");
+        System.out.print("\u001B[32mSenha: \u001B[0m");
         String senha = scanner.nextLine();
-
+        
+        System.out.println("\u001B[33m-------------------\u001B[0m");
         signClient.registrarUsuario(email, senha, nome);
     }
-
-    
 }
