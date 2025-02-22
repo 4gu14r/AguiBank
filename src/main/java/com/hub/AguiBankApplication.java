@@ -31,7 +31,6 @@ public class AguiBankApplication {
 						cadastroPage.exibirFormulario(scanner);
 						break;
 					case 2:
-						// Aqui o bean Login é obtido do contexto, garantindo que as injeções ocorram
 						Login loginPage = context.getBean(Login.class);
 						loginPage.exibirFormulario(scanner);
 						break;
