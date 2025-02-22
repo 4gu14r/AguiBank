@@ -9,6 +9,10 @@ import java.net.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hub.model.Cliente;
+
 @Component
 public class AuthenticationClient {
     
@@ -45,8 +49,19 @@ public class AuthenticationClient {
             int statusCode = response.statusCode();
             if (statusCode == 200) {
                 System.out.println("Login realizado com sucesso!");
-                System.out.println("Resposta: " + response.body());
+                
+                // Parsear a resposta JSON
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode jsonResponse = mapper.readTree(response.body());
+                String accessToken = jsonResponse.get("access_token").asText();
+                String refreshToken = jsonResponse.get("refresh_token").asText();
+                JsonNode userNode = jsonResponse.get("user");
+                String userId = userNode.get("id").asText();
+
+                // Armazenar a sessão no Cliente (Singleton)
+                Cliente.getInstance().setSessao(userId, accessToken, refreshToken);
                 return true;
+
             } else {
                 System.out.println("Erro ao realizar login. Código de status: " + statusCode);
                 System.out.println("Resposta: " + response.body());
