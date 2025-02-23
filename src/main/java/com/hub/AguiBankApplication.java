@@ -2,13 +2,17 @@ package com.hub;
 
 import com.hub.layouts.*;
 import com.hub.model.Cliente;
+import com.hub.model.Transacao;
 import com.hub.service.ContaBancariaService;
+import com.hub.service.TransacaoService;
+import com.hub.utils.TransacaoUtils;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -53,6 +57,8 @@ public class AguiBankApplication {
 
         TelaPrincipal menuPrincipal = context.getBean(TelaPrincipal.class);
         ContaBancariaService contaService = context.getBean(ContaBancariaService.class);
+        TransacaoService transacaoService = context.getBean(TransacaoService.class);
+
         int opcao;
 
         do {
@@ -63,7 +69,14 @@ public class AguiBankApplication {
                     System.out.println("Saldo atual: R$ " + saldo);
                     break;
                 case 2:
-                    System.out.println("Imprimir Extrato");
+                    Long conta = contaService.getNumConta(cliente.getUserId());
+                    try {
+                        List<Transacao> transacoes = transacaoService.extratoBancario(conta);
+                        TransacaoUtils.imprimirExtrato(transacoes);
+                    } catch (RuntimeException e) {
+                        System.out.println(e.getMessage());
+                    }
+
                     break;
                 case 3:
                     System.out.println("Saque");
