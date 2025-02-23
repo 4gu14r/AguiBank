@@ -14,16 +14,15 @@ public class ContaBancariaService {
     private ContaBancariaRepository repository;
 
     public ContaBancaria criarContaParaUsuario(String userId) {
-        ContaBancaria conta = new ContaBancaria(userId);
-        return repository.save(conta);
+        return repository.save(new ContaBancaria(userId));
+    }
+
+    public Integer getNumConta(String userId){
+        return repository.findContaByUserId(userId);
     }
 
     public BigDecimal consultarSaldo(String userId) {
-        BigDecimal saldo = repository.findSaldoByUserId(userId);
-        if (saldo == null) {
-            throw new RuntimeException("Conta não encontrada para o userId: " + userId);
-        }
-        return saldo;
+        return repository.findSaldoByUserId(userId);
     }
 
 }
