@@ -2,6 +2,10 @@ package com.hub.model;
 
 import java.math.BigDecimal;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "contas_bancaria")
@@ -9,7 +13,7 @@ public class ContaBancaria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int conta;
+    private Long conta;
 
     private BigDecimal saldo; 
 
@@ -21,7 +25,16 @@ public class ContaBancaria {
     @Enumerated(EnumType.STRING)
     private TipoConta tipoConta;
 
+    @Column(name = "user_id")
     private String userId;
+
+    @CreationTimestamp
+    @Column(name = "data_criacao", nullable = false, updatable = false)
+    private LocalDateTime dataHoraCriacao;
+
+    @UpdateTimestamp
+    @Column(name = "data_modificacao", nullable = false)
+    private LocalDateTime dataHoraModificacao;
    
     public ContaBancaria() {} // Construtor padrão exigido pelo JPA
 
@@ -32,11 +45,11 @@ public class ContaBancaria {
     }
 
     // Getters e Setters
-    public int getConta() {
+    public Long getConta() {
         return conta;
     }
 
-    public void setConta(int conta) {
+    public void setConta(Long conta) {
         this.conta = conta;
     }
 
@@ -56,11 +69,27 @@ public class ContaBancaria {
         this.tipoConta = tipoConta;
     }
 
-    public String getUserID() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserID(String userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getDataHoraCriacao() {
+        return dataHoraCriacao;
+    }
+
+    public void setDataHoraCriacao(LocalDateTime dataHoraCriacao) {
+        this.dataHoraCriacao = dataHoraCriacao;
+    }
+
+    public LocalDateTime getDataHoraModificacao() {
+        return dataHoraModificacao;
+    }
+
+    public void setDataHoraModificacao(LocalDateTime dataHoraModificacao) {
+        this.dataHoraModificacao = dataHoraModificacao;
     }
 }

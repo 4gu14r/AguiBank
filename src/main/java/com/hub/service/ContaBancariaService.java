@@ -1,5 +1,7 @@
 package com.hub.service;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,15 @@ public class ContaBancariaService {
     private ContaBancariaRepository repository;
 
     public ContaBancaria criarContaParaUsuario(String userId) {
-        ContaBancaria conta = new ContaBancaria(userId);
-        return repository.save(conta);
+        return repository.save(new ContaBancaria(userId));
     }
+
+    public Long getNumConta(String userId){
+        return repository.findContaByUserId(userId);
+    }
+
+    public BigDecimal consultarSaldo(String userId) {
+        return repository.findSaldoByUserId(userId);
+    }
+
 }

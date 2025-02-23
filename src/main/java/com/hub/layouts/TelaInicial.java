@@ -2,6 +2,9 @@ package com.hub.layouts;
 
 import java.util.Scanner;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TelaInicial {
     public int Menu(Scanner scanner) {
         System.out.println("\u001B[34m********************************\u001B[0m"); 
