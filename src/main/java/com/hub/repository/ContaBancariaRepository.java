@@ -10,12 +10,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Integer> {
+public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Long> {
     
+    // Conta
     @Query("SELECT c.conta FROM ContaBancaria c WHERE c.userId = :userId")
     Long findContaByUserId(@Param("userId") String userId);
 
+    // Saldo
     @Query("SELECT c.saldo FROM ContaBancaria c WHERE c.userId = :userId")
     BigDecimal findSaldoByUserId(@Param("userId") String userId);
+
+    @Query("SELECT c.saldo FROM ContaBancaria c WHERE c.conta = :conta")
+    BigDecimal findSaldoByConta(@Param("conta") Long conta);
 
 }

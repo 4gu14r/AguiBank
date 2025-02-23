@@ -61,7 +61,7 @@ public class RegistrationClient {
                 JsonNode root = mapper.readTree(response.body());
                 String userId = root.path("user").path("id").asText();
 
-                contaBancariaService.criarContaParaUsuario(userId);
+                contaBancariaService.criarConta(userId);
                 System.out.println("Registro de conta bancária criado para o usuário com id: " + userId);
             } else {
                 System.out.println("Erro ao realizar cadastro. Código de status: " + statusCode);

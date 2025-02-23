@@ -4,6 +4,7 @@ import com.hub.layouts.*;
 import com.hub.model.Cliente;
 import com.hub.model.Transacao;
 import com.hub.service.ContaBancariaService;
+import com.hub.service.DepositoService;
 import com.hub.service.TransacaoService;
 import com.hub.utils.TransacaoUtils;
 
@@ -53,25 +54,26 @@ public class AguiBankApplication {
     }
 
     public static void executarMenuPrincipal(ConfigurableApplicationContext context, Scanner scanner) {
-        Cliente cliente = Cliente.getInstance();
-
+        
         TelaPrincipal menuPrincipal = context.getBean(TelaPrincipal.class);
         ContaBancariaService contaService = context.getBean(ContaBancariaService.class);
         TransacaoService transacaoService = context.getBean(TransacaoService.class);
-
+        
+        Cliente cliente = Cliente.getInstance();
+        Long contaBancaria = contaService.consultarNumContaPorUserId(cliente.getUserId());
+        
         int opcao;
 
         do {
             opcao = menuPrincipal.exibirTelaPrincipal(scanner);
             switch (opcao) {
                 case 1:
-                    BigDecimal saldo = contaService.consultarSaldo(cliente.getUserId());
+                    BigDecimal saldo = contaService.consultarSaldoPorUserId(cliente.getUserId());
                     System.out.println("Saldo atual: R$ " + saldo);
                     break;
                 case 2:
-                    Long conta = contaService.getNumConta(cliente.getUserId());
                     try {
-                        List<Transacao> transacoes = transacaoService.extratoBancario(conta);
+                        List<Transacao> transacoes = transacaoService.extratoBancario(contaBancaria);
                         TransacaoUtils.imprimirExtrato(transacoes);
                     } catch (RuntimeException e) {
                         System.out.println(e.getMessage());
@@ -85,7 +87,15 @@ public class AguiBankApplication {
                     System.out.println("Transferência");
                     break;
                 case 5:
-                    System.out.println("Depósito");
+                    Deposito depositoPage = context.getBean(Deposito.class);
+                    DepositoService depositoService = context.getBean(DepositoService.class);
+                    BigDecimal valorDeposito = depositoPage.exibirFormulario(scanner);
+                    try {
+                        depositoService.realizarDeposito(valorDeposito, contaBancaria);
+                        System.out.println("Depósito  de R$: "+valorDeposito+" realizado com sucesso!");
+                    } catch (Exception e) {
+                        System.out.println("Erro ao processar o depósito: " + e.getMessage());
+                    }
                     break;
                 case 6:
                     System.out.println("Voltando ao Menu Inicial");

@@ -13,16 +13,29 @@ public class ContaBancariaService {
     @Autowired
     private ContaBancariaRepository repository;
 
-    public ContaBancaria criarContaParaUsuario(String userId) {
+    // Contas
+    public ContaBancaria criarConta(String userId) {
         return repository.save(new ContaBancaria(userId));
     }
 
-    public Long getNumConta(String userId){
-        return repository.findContaByUserId(userId);
+    public ContaBancaria atualizarConta(ContaBancaria conta) {
+        return repository.save(conta);
     }
 
-    public BigDecimal consultarSaldo(String userId) {
+    public ContaBancaria pegarNumContaAtual(Long contaId){
+        return repository.getReferenceById(contaId);
+    }
+
+    // Consultas
+    public BigDecimal consultarSaldoPorUserId(String userId) {
         return repository.findSaldoByUserId(userId);
     }
 
+    public BigDecimal consultaSaldoPorNumConta(Long conta){
+        return repository.findSaldoByConta(conta);
+    }
+
+    public Long consultarNumContaPorUserId(String userId){
+        return repository.findContaByUserId(userId);
+    }
 }

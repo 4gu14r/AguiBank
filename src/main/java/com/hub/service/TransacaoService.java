@@ -29,4 +29,8 @@ public class TransacaoService {
         }
         return transacoes;
     }
+    
+    public Transacao salvarTransacao(Transacao transacao) {
+        return transacaoRepository.save(transacao);
+    }
 }
