@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface ContaBancariaRepository extends JpaRepository<ContaBancaria, Integer> {
     
     @Query("SELECT c.conta FROM ContaBancaria c WHERE c.userId = :userId")
-    Integer findContaByUserId(@Param("userId") String userId);
+    Long findContaByUserId(@Param("userId") String userId);
 
     @Query("SELECT c.saldo FROM ContaBancaria c WHERE c.userId = :userId")
     BigDecimal findSaldoByUserId(@Param("userId") String userId);

@@ -13,7 +13,7 @@ public class ContaBancaria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int conta;
+    private Long conta;
 
     private BigDecimal saldo; 
 
@@ -45,11 +45,11 @@ public class ContaBancaria {
     }
 
     // Getters e Setters
-    public int getConta() {
+    public Long getConta() {
         return conta;
     }
 
-    public void setConta(int conta) {
+    public void setConta(Long conta) {
         this.conta = conta;
     }
 

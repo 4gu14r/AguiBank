@@ -17,7 +17,7 @@ public class ContaBancariaService {
         return repository.save(new ContaBancaria(userId));
     }
 
-    public Integer getNumConta(String userId){
+    public Long getNumConta(String userId){
         return repository.findContaByUserId(userId);
     }
 
