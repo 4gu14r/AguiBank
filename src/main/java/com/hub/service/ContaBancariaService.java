@@ -21,11 +21,7 @@ public class ContaBancariaService {
     public ContaBancaria atualizarConta(ContaBancaria conta) {
         return repository.save(conta);
     }
-
-    public ContaBancaria pegarNumContaAtual(Long contaId){
-        return repository.getReferenceById(contaId);
-    }
-
+    
     // Consultas
     public BigDecimal consultarSaldoPorUserId(String userId) {
         return repository.findSaldoByUserId(userId);
@@ -38,4 +34,5 @@ public class ContaBancariaService {
     public Long consultarNumContaPorUserId(String userId){
         return repository.findContaByUserId(userId);
     }
+
 }

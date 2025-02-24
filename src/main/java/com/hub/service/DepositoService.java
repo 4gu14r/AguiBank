@@ -2,6 +2,7 @@ package com.hub.service;
 
 import com.hub.model.ContaBancaria;
 import com.hub.model.Transacao;
+import com.hub.repository.ContaBancariaRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -12,6 +13,9 @@ import java.math.BigDecimal;
 
 @Service
 public class DepositoService {
+
+    @Autowired
+    private ContaBancariaRepository contaBancariaRepository;
 
     @Autowired
     private ContaBancariaService contaBancariaService;
@@ -32,7 +36,7 @@ public class DepositoService {
         BigDecimal novoSaldo = saldoAtual.add(valorDeposito);
 
         // Conta Bancaria
-        ContaBancaria contaBancaria = contaBancariaService.pegarNumContaAtual(contaId);
+        ContaBancaria contaBancaria = contaBancariaRepository.findById(contaId).get();
         contaBancaria.setConta(contaId);
         contaBancaria.setSaldo(novoSaldo);
         contaBancariaService.atualizarConta(contaBancaria);
@@ -43,7 +47,6 @@ public class DepositoService {
         transacao.setValor(valorDeposito);
         transacao.setTipoTransacao(Transacao.TipoTransacao.DEPOSITO);
         transacao.setDescricao("Depósito Bancário");
-        transacao.setSaldoAtual(novoSaldo);
         transacaoService.salvarTransacao(transacao);
     }
 }

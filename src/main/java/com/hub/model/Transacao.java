@@ -31,9 +31,6 @@ public class Transacao {
     @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
 
-    @Column(name = "saldo_atual")
-    private BigDecimal saldoAtual;
-
     @CreationTimestamp
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private LocalDateTime dataHoraCriacao;
@@ -121,12 +118,5 @@ public class Transacao {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-    public BigDecimal getSaldoAtual() {
-        return saldoAtual;
-    }
-
-    public void setSaldoAtual(BigDecimal saldoAtual) {
-        this.saldoAtual = saldoAtual;
-    }
+    
 }
