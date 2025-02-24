@@ -10,4 +10,5 @@ import java.util.List;
 public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
 
     List<Transacao> findByContaOrigemContaOrderByDataHoraCriacaoDesc(Long contaId);
+    List<Transacao> findByContaDestinoContaOrderByDataHoraCriacaoDesc(Long contaId);
 }

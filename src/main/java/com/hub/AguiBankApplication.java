@@ -6,6 +6,7 @@ import com.hub.model.Transacao;
 import com.hub.service.ContaBancariaService;
 import com.hub.service.DepositoService;
 import com.hub.service.SaqueService;
+import com.hub.service.TransferenciaService;
 import com.hub.service.TransacaoService;
 import com.hub.utils.TransacaoUtils;
 
@@ -15,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -55,14 +57,14 @@ public class AguiBankApplication {
     }
 
     public static void executarMenuPrincipal(ConfigurableApplicationContext context, Scanner scanner) {
-        
+
         TelaPrincipal menuPrincipal = context.getBean(TelaPrincipal.class);
         ContaBancariaService contaService = context.getBean(ContaBancariaService.class);
         TransacaoService transacaoService = context.getBean(TransacaoService.class);
-        
+
         Cliente cliente = Cliente.getInstance();
         Long contaBancaria = contaService.consultarNumContaPorUserId(cliente.getUserId());
-        
+
         int opcao;
 
         do {
@@ -84,15 +86,30 @@ public class AguiBankApplication {
                     Saque saquePage = context.getBean(Saque.class);
                     SaqueService saqueService = context.getBean(SaqueService.class);
                     BigDecimal valorSaque = saquePage.exibirFormulario(scanner);
-                    try{
+                    try {
                         saqueService.realizarSaque(valorSaque, contaBancaria);
-                        System.out.println("Saque de R$: "+valorSaque+" realizado, seu saldo atual é de "+contaService.consultaSaldoPorNumConta(contaBancaria));
-                    }catch(Exception e){
+                        System.out.println("Saque de R$: " + valorSaque + " realizado, seu saldo atual é de "
+                                + contaService.consultaSaldoPorNumConta(contaBancaria));
+                    } catch (Exception e) {
                         System.out.println("Erro ao processar o saque: " + e.getMessage());
                     }
                     break;
                 case 4:
-                    System.out.println("Transferência");
+                    Transferencia transferenciaPage = context.getBean(Transferencia.class);
+
+                    Map<String, Object> dadosTransferencia = transferenciaPage.exibirFormulario(scanner);
+                    BigDecimal valor = (BigDecimal) dadosTransferencia.get("valor");
+                    Long contaDestino = (Long) dadosTransferencia.get("contaDestino");
+
+                    TransferenciaService transferenciaService = context.getBean(TransferenciaService.class);
+
+                    try {
+                        transferenciaService.realizarTransferencia(valor, contaBancaria, contaDestino);
+                        System.out.println("Transferência de R$ " + valor + " realizada com sucesso!");
+                    } catch (Exception e) {
+                        System.out.println("Erro ao realizar transferência: " + e.getMessage());
+                    }
+                    
                     break;
                 case 5:
                     Deposito depositoPage = context.getBean(Deposito.class);
@@ -100,7 +117,7 @@ public class AguiBankApplication {
                     BigDecimal valorDeposito = depositoPage.exibirFormulario(scanner);
                     try {
                         depositoService.realizarDeposito(valorDeposito, contaBancaria);
-                        System.out.println("Depósito  de R$: "+valorDeposito+" realizado com sucesso!");
+                        System.out.println("Depósito  de R$: " + valorDeposito + " realizado com sucesso!");
                     } catch (Exception e) {
                         System.out.println("Erro ao processar o depósito: " + e.getMessage());
                     }

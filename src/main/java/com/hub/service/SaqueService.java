@@ -7,11 +7,15 @@ import org.springframework.stereotype.Service;
 
 import com.hub.model.ContaBancaria;
 import com.hub.model.Transacao;
+import com.hub.repository.ContaBancariaRepository;
 
 import jakarta.transaction.Transactional;
 
 @Service
 public class SaqueService {
+
+    @Autowired
+    private ContaBancariaRepository contaBancariaRepository;
 
     @Autowired
     private ContaBancariaService contaBancariaService;
@@ -32,7 +36,7 @@ public class SaqueService {
         BigDecimal novoSaldo = saldoAtual.subtract(valorSaque);
 
         // Conta Bancaria
-        ContaBancaria contaBancaria = contaBancariaService.pegarNumContaAtual(contaId);
+        ContaBancaria contaBancaria = contaBancariaRepository.findById(contaId).get();
         contaBancaria.setSaldo(novoSaldo);
         contaBancariaService.atualizarConta(contaBancaria);
 
@@ -42,7 +46,6 @@ public class SaqueService {
         transacao.setValor(valorSaque);
         transacao.setTipoTransacao(Transacao.TipoTransacao.SAQUE);
         transacao.setDescricao("Saque Bancário");
-        transacao.setSaldoAtual(novoSaldo);
         transacaoService.salvarTransacao(transacao);
     }
 

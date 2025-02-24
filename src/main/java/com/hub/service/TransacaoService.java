@@ -5,6 +5,7 @@ import com.hub.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,12 +25,22 @@ public class TransacaoService {
 
     public List<Transacao> extratoBancario(Long contaId) {
         List<Transacao> transacoes = transacaoRepository.findByContaOrigemContaOrderByDataHoraCriacaoDesc(contaId);
-        if (transacoes.isEmpty()) {
+        List<Transacao> recebimento = transacaoRepository.findByContaDestinoContaOrderByDataHoraCriacaoDesc(contaId);
+
+
+        List<Transacao> todasTransacoes = new ArrayList<>();
+        todasTransacoes.addAll(transacoes);
+        todasTransacoes.addAll(recebimento);
+
+        if (todasTransacoes.isEmpty()) {
             throw new RuntimeException("Nenhuma transação encontrada para a conta " + contaId);
         }
-        return transacoes;
+
+        todasTransacoes.sort((t1, t2) -> t2.getDataHoraCriacao().compareTo(t1.getDataHoraCriacao()));
+
+        return todasTransacoes;
     }
-    
+
     public Transacao salvarTransacao(Transacao transacao) {
         return transacaoRepository.save(transacao);
     }

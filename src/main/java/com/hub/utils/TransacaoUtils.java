@@ -1,6 +1,5 @@
 package com.hub.utils;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.hub.model.Transacao;
@@ -13,7 +12,7 @@ public class TransacaoUtils {
         }
 
         System.out.println("\n=== Extrato Bancário ===");
-        System.out.println("Data/Hora\t\tTipo\t\tValor\t\tDescrição\t\tSaldo Atual");
+        System.out.println("Data/Hora\t\tTipo\t\tValor\t\tDescrição");
         System.out.println("----------------------------------------------------------------");
 
         for (Transacao transacao : transacoes) {
@@ -21,8 +20,7 @@ public class TransacaoUtils {
                     transacao.getDataHoraCriacao(),
                     transacao.getTipoTransacao(),
                     transacao.getValor(),
-                    transacao.getDescricao() != null ? transacao.getDescricao() : "-",
-                    transacao.getSaldoAtual() != null ? transacao.getSaldoAtual() : BigDecimal.ZERO);
+                    transacao.getDescricao() != null ? transacao.getDescricao() : "-");
         }
         System.out.println("========================");
     }
