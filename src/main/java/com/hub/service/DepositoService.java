@@ -26,19 +26,18 @@ public class DepositoService {
             throw new IllegalArgumentException("O valor do depósito deve ser maior que zero.");
         }
 
-        // Obter o saldo atual da conta
-        BigDecimal saldoAtual = contaBancariaService.consultaSaldoPorNumConta(contaId);
 
-        // Calcular o novo saldo
+        // Operação
+        BigDecimal saldoAtual = contaBancariaService.consultaSaldoPorNumConta(contaId);
         BigDecimal novoSaldo = saldoAtual.add(valorDeposito);
 
-        // Atualizar o saldo da conta
+        // Conta Bancaria
         ContaBancaria contaBancaria = contaBancariaService.pegarNumContaAtual(contaId);
         contaBancaria.setConta(contaId);
         contaBancaria.setSaldo(novoSaldo);
         contaBancariaService.atualizarConta(contaBancaria);
 
-        // Registrar a transação de depósito
+        // Transação
         Transacao transacao = new Transacao();
         transacao.setContaOrigem(contaBancaria);
         transacao.setValor(valorDeposito);
