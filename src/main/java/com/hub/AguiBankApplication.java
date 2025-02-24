@@ -5,6 +5,7 @@ import com.hub.model.Cliente;
 import com.hub.model.Transacao;
 import com.hub.service.ContaBancariaService;
 import com.hub.service.DepositoService;
+import com.hub.service.SaqueService;
 import com.hub.service.TransacaoService;
 import com.hub.utils.TransacaoUtils;
 
@@ -78,10 +79,17 @@ public class AguiBankApplication {
                     } catch (RuntimeException e) {
                         System.out.println(e.getMessage());
                     }
-
                     break;
                 case 3:
-                    System.out.println("Saque");
+                    Saque saquePage = context.getBean(Saque.class);
+                    SaqueService saqueService = context.getBean(SaqueService.class);
+                    BigDecimal valorSaque = saquePage.exibirFormulario(scanner);
+                    try{
+                        saqueService.realizarSaque(valorSaque, contaBancaria);
+                        System.out.println("Saque de R$: "+valorSaque+" realizado, seu saldo atual é de "+contaService.consultaSaldoPorNumConta(contaBancaria));
+                    }catch(Exception e){
+                        System.out.println("Erro ao processar o saque: " + e.getMessage());
+                    }
                     break;
                 case 4:
                     System.out.println("Transferência");

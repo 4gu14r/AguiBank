@@ -6,7 +6,7 @@ import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Deposito {
+public class Saque {
     
     /**
      * Exibe o formulário de adiconar o valor do saldo.
@@ -15,9 +15,9 @@ public class Deposito {
 
     public BigDecimal exibirFormulario(Scanner scanner) {
         System.out.println("\u001B[34m--------------------------------\u001B[0m"); 
-        System.out.println("\u001B[1m             Depósito             \u001B[0m"); 
+        System.out.println("\u001B[1m              Saque              \u001B[0m"); 
         System.out.println("\u001B[34m--------------------------------\u001B[0m");
-        System.out.println("Deseja depositar quanto?");
+        System.out.println("Deseja sacar quanto?");
         System.out.print("\u001B[34mValor: \u001B[0m");
         BigDecimal valor = scanner.nextBigDecimal();
          
